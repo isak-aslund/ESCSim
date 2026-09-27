@@ -75,6 +75,13 @@ class ParamDialog(QDialog):
         self.build_rows()
         self.refresh()
 
+    def showEvent(self, event):
+        # always re-read from the simulator when the dialog is shown, so
+        # reopening it never displays stale values (e.g. after params were
+        # changed over DroneCAN or the sim was restarted)
+        super().showEvent(event)
+        self.refresh()
+
     def build_rows(self):
         for row, (off, name, lo, hi, dflt, helptext) in enumerate(
                 sitl_params.PARAMS):

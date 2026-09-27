@@ -259,9 +259,17 @@ class SimRunner(object):
             startupinfo = subprocess.STARTUPINFO()
             startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
             startupinfo.wShowWindow = subprocess.SW_HIDE
+        # Keep the SITL firmware's DroneCAN multicast port in step with the
+        # pydronecan driver's DRONECAN_MCAST_PORT (default 42732 here, moved
+        # off 57732 which is inside a Windows Hyper-V reserved UDP range).
+        # This makes the GUI's DroneCAN path work with no env vars from the
+        # user; an explicit AM32_SITL_MCAST_PORT still wins if set.
+        child_env = dict(os.environ)
+        child_env.setdefault('AM32_SITL_MCAST_PORT',
+                             os.environ.get('DRONECAN_MCAST_PORT', '42732'))
         self.proc = subprocess.Popen(
             cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
-            text=True, bufsize=1, startupinfo=startupinfo)
+            text=True, bufsize=1, startupinfo=startupinfo, env=child_env)
         self._requested_stop = None
         if sys.platform.startswith('win'):
             try:

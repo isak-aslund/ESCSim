@@ -94,6 +94,11 @@ PARAMS = [
     (181, 'FILTER_HZ', 0, 255, 20, 'DroneCAN input filter cutoff, Hz'),
     (182, 'DEBUG_RATE', 0, 200, 0, 'FlexDebug rate, Hz'),
     (183, 'TERM_ENABLE', 0, 1, 0, 'serial terminal'),
+    (184, 'DEMAG_BLANK', 0, 4, 0, 'quiet drive: post-commutation zero-cross blanking strength (0 off)'),
+    (185, 'COMM_FILTER', 0, 4, 0, 'quiet drive: low-gain commutation-interval filter (0 legacy IIR)'),
+    (186, 'SOFT_COMM', 0, 4, 0, 'quiet drive: soft commutation ramp length (0 off, L431/SITL only)'),
+    (187, 'SOFT_START', 0, 50, 0, 'folding-prop soft start ramp time in 0.1s units (5=0.5s, 0 off)'),
+    (188, 'SOFT_START_ERPM', 5, 100, 21, 'folding-prop soft start handover speed in hundreds of erpm'),
 ]
 
 PARAMS_BY_NAME = dict((p[1], p) for p in PARAMS)
